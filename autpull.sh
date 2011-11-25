@@ -1,4 +1,7 @@
 #!/bin/sh
-cd ~/Rails/ip.railscasts.ru
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+cd $DIR
 git pull origin master
 touch /tmp/restart.txt
+
+
