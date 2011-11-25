@@ -1,4 +1,10 @@
 IpRailscastsRu::Application.routes.draw do
+  root :to => 'page#index'
+
+  get "json" => 'page#json'
+  match "domain/(:domain)" => 'page#domain', :domain => /[^\/]+/
+  get "page/index"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
