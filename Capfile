@@ -122,7 +122,29 @@ task :stop do
 end
 desc "Add app nginx conf to server"
 task :conf do
-  run "#{sudo} ln -sfv #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
+  default_nginx_template = <<-EOF
+    server {
+    listen  80;
+    server_name  #{server_name};
+    root #{current_path}/public;
+    location / {
+        try_files  $uri @unicorn;
+    }
+    location @unicorn {
+        proxy_set_header  Client-Ip $remote_addr;
+        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header  Host $host;
+        proxy_pass  http://unix:#{shared_path}/pids/unicorn.sock;
+    }
+    }
+  EOF
+
+#location = fetch(:template_dir, "config") + '/nginx.conf.erb'
+#template = File.file?(location) ? File.read(location) : default_nginx_template
+  config = ERB.new(default_nginx_template)
+#  puts config.result
+  put config.result(binding), "#{shared_path}/nginx.conf"
+  run "#{sudo} ln -sfv #{shared_path}/nginx.conf /etc/nginx/sites-enabled/#{application}"
 end
 desc "Del nginx config"
 task :delconf do
