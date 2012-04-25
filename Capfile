@@ -10,7 +10,7 @@ load 'config/deploy' # remove this line to skip loading any of the default tasks
 
 #load 'deploy/assets'
 
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+#$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 require "rvm/capistrano"
 rvmrc = "rvm use #{rvm_ruby_string}"
 set :rvm_type, :user
