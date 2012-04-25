@@ -2,7 +2,7 @@ set :rvm_ruby_string, '1.9.3'
 set :application, "ip_show"
 set :user, "justvitalius"
 set :serv, "178.162.126.190"
-set :server_name, "ip.railscasts.ru"
+set :server_name, "ip.zengile.com"
 set :assets, false
 
 set :backup_db, false
